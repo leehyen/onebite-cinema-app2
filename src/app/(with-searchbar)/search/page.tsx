@@ -1,10 +1,27 @@
-"use client";
-import { useSearchParams ,useRouter} from "next/navigation";
+import MovieItem from "@/components/movie-item";
+import { MovieData } from "@/types";
 
-export default function Page(){
-    const router=useRouter();
-      const searchParams = useSearchParams();
-      const q = searchParams.get("q");
- 
-    return <div>Search Layout :{q}</div>
+export default async function Page({
+  searchParams,
+}:{
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
+
+  const response=await fetch(
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/search?q=${searchParams.q}`,
+    {cache:"no-store"}
+  )
+  if(!response.ok){
+    return <div>오류가 발생했습니다...</div>
+  }
+  const movies:MovieData[]=await response.json();
+
+  return (
+    <div>
+      {movies.map((movie) => (
+      <MovieItem key={movie.id} {...movie} />
+    ))}
+    </div>
+  );
 }
