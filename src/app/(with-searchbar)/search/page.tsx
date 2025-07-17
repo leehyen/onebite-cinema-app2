@@ -4,7 +4,7 @@ import { MovieData } from "@/types";
 export default async function Page({
   searchParams,
 }:{
-  searchParams: Promise<{ q?: string }>;
+  searchParams:  { q: string };
 }) {
   const { q } = await searchParams;
 

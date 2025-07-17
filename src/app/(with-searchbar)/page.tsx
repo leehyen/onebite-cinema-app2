@@ -15,7 +15,7 @@ async function AllBooks(){
     return(
       <div>
         {allMovies.map((movie)=>(
-          <MovieItem key={allMovies.id} {...movie}/>
+          <MovieItem key={movie.id} {...movie}/>
         ))}
       </div>
     )
@@ -35,7 +35,7 @@ async function RecoBooks(){
     return(
       <div>
         {allMovies.map((movie)=>(
-          <MovieItem key={allMovies.id} {...movie}/>
+          <MovieItem key={movie.id} {...movie}/>
         ))}
       </div>
     )
