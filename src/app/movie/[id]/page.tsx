@@ -1,14 +1,24 @@
+
+import notFound from "@/app/not-found";
 import style from "./page.module.css";
 
+export const dynamicParams=false;
+
+export function generateStaticParams(){
+  return [{id:"1234"},{id:"23456"},{id:"78910"}]
+}
 export default async function Page({
-    params, 
+    params,  
 }:{
-    params:Promise<{id:string | string[]}>;
+    params:{id:string | string[]};
 }){
   const response=await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/${params.id}`,{cache:"force-cache"}
   );
   if(!response.ok){
+    if(response.status===404){
+      notFound();
+    }
     return <div>오류가 발생했습니다...</div>;
   }
   const movie=await response.json();
