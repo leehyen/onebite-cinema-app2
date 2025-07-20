@@ -1,0 +1,18 @@
+.container {
+  width: 100%;
+  gap: 10;
+}
+
+.img30 {
+  width: 252px;
+  height:360px;
+  margin: 3px;
+  background-color: rgb(230,230,230)
+}
+
+.img20 {
+  width: 150px;
+  height: 217px;
+  margin: 3px;
+  background-color: rgb(0,555,230);
+}

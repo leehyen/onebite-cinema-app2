@@ -3,16 +3,17 @@
   width: 100%;
   cursor: pointer;
   align-items: center;
-  gap: 10px;
 }
 
 .img30 {
-  width: 32%;
+  width: 252px;
+  height:362px;
   margin: 3px;
 }
 
 .img20 {
-  width: 19%;
+  width: 152px;
+  height: 217px;
   margin: 4px;
 }
 

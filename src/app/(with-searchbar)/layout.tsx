@@ -10,8 +10,8 @@ export default function Layout({
         <div>
             <Suspense fallback={<div>Loading ...</div>}>
                 <Searchbar/>
+                {children}
             </Suspense>
-            {children}
         </div>
     );
 }
