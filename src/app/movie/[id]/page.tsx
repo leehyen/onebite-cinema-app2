@@ -1,19 +1,16 @@
 
 import notFound from "@/app/not-found";
 import style from "./page.module.css";
-
-export const dynamicParams=false;
+import { ReviewData } from "@/types";
+import ReviewItem from "@/components/review-item";
+import ReviewEditor from "@/components/review-editor";
 
 export function generateStaticParams(){
-  return [{id:"1234"},{id:"23456"},{id:"78910"}]
+  return [{id:"1"},{id:"2"},{id:"3"}]
 }
-export default async function Page({
-    params,  
-}:{
-    params:{id:string | string[]};
-}){
+async function MovieDetail({movieId}:{movieId:string}){
   const response=await fetch(
-    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/${params.id}`,{cache:"force-cache"}
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/movie/${movieId}`
   );
   if(!response.ok){
     if(response.status===404){
@@ -23,7 +20,6 @@ export default async function Page({
   }
   const movie=await response.json();
 
-  const {id}=await params;
   const {title,releaseDate,company,genres,subTitle,description,runtime,posterImgUrl,}=movie;
   return (
     <div className={style.container}>
@@ -40,4 +36,30 @@ export default async function Page({
         <div className={style.description} >{description}</div>
     </div>
   );
+}
+async function ReviewList({movieId}:{movieId:string}){
+  const response=await fetch(
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/review/movie/${movieId}`
+  );
+  if(!response.ok){
+    throw new Error(`Review fetch failed:${response.statusText}`);
+  }
+  const reviews: ReviewData[]=await response.json();
+  return (
+    <section>
+      {reviews.map((review)=>(
+        <ReviewItem key={`review-items-${review.id}`} {...review}/>
+      ))}  
+    </section>
+  );
+}
+
+export default function Page({params,}: {params: {id: string}}) {
+  return (
+  <div className={style.container}>
+    <MovieDetail movieId={params.id}/>
+    <ReviewEditor movieId={params.id}/>
+    <ReviewList movieId={params.id}/>
+  </div>
+  )
 }
